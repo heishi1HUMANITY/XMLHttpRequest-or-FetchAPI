@@ -1,0 +1,30 @@
+<script>
+let json;
+
+let xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://raw.githubusercontent.com/heishi1HUMANITY/test/master/item.json');
+xhr.responseType = 'json';//ここをやるとJSON.parse()をやる必要がなくなる代わりに、データは.responseに入る
+xhr.send(null);
+
+xhr.onreadystatechange = () => {
+    if(xhr.readyState == 4){
+        if(xhr.status == 200){
+            json = xhr.response; 
+            // json = JSON.parse(xhr.responseText); //responseTypeを指定しなかった場合
+            output();
+        }else{
+            let p = document.createElement('p');
+            p.innerText = 'Error: ' + xhr.status + ': ' + xhr.statusText;
+            document.body.appendChild(p);
+        }
+    }
+};
+
+let output = () => {
+    for(let i = 0; i < json.keys; i++){
+        let p = document.createElement('p');
+        p.innerText = json.store[i].name + " / " + json.store[i].id;
+        document.body.appendChild(p);
+    }
+}
+</script>

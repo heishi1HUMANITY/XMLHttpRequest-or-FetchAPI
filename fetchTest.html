@@ -1,0 +1,30 @@
+<script>
+    let json;
+    fetch('https://raw.githubusercontent.com/heishi1HUMANITY/test/master/item.json', {
+        method: 'GET' //methodがGETの場合、第２引数は省略可
+    })
+    .then(response => {
+        if(response.ok){
+            return response.json();
+        }else{
+            throw new Error(response.status + ': ' + response.statusText);
+        }
+    }).then(result => {
+        json = result;
+        output();
+    })
+    .catch(error => {
+        let p = document.createElement('p');
+        p.innerText = error;
+        document.body.appendChild(p);
+    });
+
+    let output = () => {
+        for(let i = 0; i < json.keys; i++){
+            let p = document.createElement('p');
+            p.innerText = json.store[i].name + ' / ' + json.store[i].id;
+            document.body.appendChild(p);
+        }
+    };
+
+</script>
